@@ -54,14 +54,14 @@
 <meta name="description" content="简略翻译 Android String Placeholdersandroid开发中创建格式化字符串的两种方式
 String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;resources&amp;gt;	&amp;lt;string name=&quot;name&quot;&amp;gt;Name: %1$s %2$s&amp;lt;/string&amp;gt;&amp;lt;/resourc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android_placeholder">
+<meta property="og:title" content="Android格式化字符串">
 <meta property="og:url" content="http://yoursite.com/2016/01/07/android-placeholder/index.html">
 <meta property="og:site_name" content="David's Magic Book">
 <meta property="og:description" content="简略翻译 Android String Placeholdersandroid开发中创建格式化字符串的两种方式
 String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;resources&amp;gt;	&amp;lt;string name=&quot;name&quot;&amp;gt;Name: %1$s %2$s&amp;lt;/string&amp;gt;&amp;lt;/resourc">
-<meta property="og:updated_time" content="2016-01-07T09:31:25.000Z">
+<meta property="og:updated_time" content="2016-01-07T09:36:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android_placeholder">
+<meta name="twitter:title" content="Android格式化字符串">
 <meta name="twitter:description" content="简略翻译 Android String Placeholdersandroid开发中创建格式化字符串的两种方式
 String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;resources&amp;gt;	&amp;lt;string name=&quot;name&quot;&amp;gt;Name: %1$s %2$s&amp;lt;/string&amp;gt;&amp;lt;/resourc">
 
@@ -75,7 +75,7 @@ String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&a
   };
 </script>
 
-  <title> android_placeholder | David's Magic Book </title>
+  <title> Android格式化字符串 | David's Magic Book </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -195,7 +195,7 @@ String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&a
             
             
               
-                android_placeholder
+                Android格式化字符串
               
             
           </h1>
@@ -236,7 +236,7 @@ String.format()&amp;lt;?xml vrsion=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&a
 <h6 id="7Bplaceholders_7D_u65B9_u5F0F"><a href="#7Bplaceholders_7D_u65B9_u5F0F" class="headerlink" title="{placeholders}方式"></a><code>{placeholders}</code>方式</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="pi">&lt;?xml vrsion="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">resources</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">string</span> <span class="attribute">name</span>=<span class="value">"name"</span>&gt;</span>Name: &#123;firstname&#125; &#123;secondname&#125;<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>调用方式：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TagFormat nameFormat=TagFormat.from(getString(R.string.name));</span><br><span class="line">nameFormat.with(<span class="string">"firstname"</span>,firstname);</span><br><span class="line">nameFormat.with(<span class="string">"secondname"</span>,secondname);</span><br><span class="line">String name=nameFormat.format();</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TagFormat</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TagFormat <span class="title">from</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> TagFormat(format)</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">TagFormat</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check format empty</span></span><br><span class="line">		<span class="keyword">this</span>.format=format;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String format;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,Object&gt; tags=<span class="keyword">new</span> LinkedHashMap&lt;String,Object&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> TagFormat <span class="title">with</span><span class="params">(String key,Object value)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check key and value</span></span><br><span class="line">		tags.put(<span class="string">"\\&#123;"</span>+key+<span class="string">"\\&#125;"</span>,value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">format</span><span class="params">()</span></span>&#123;</span><br><span class="line">		String formatted=format;</span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;String,Object&gt; tag:tags.entrySet())&#123;</span><br><span class="line">			formatted=formatted.replaceAll(tag.getKey(),tag.getValue().toString());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> formatted;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TagFormat</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TagFormat <span class="title">from</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> TagFormat(format)</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">TagFormat</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check format empty</span></span><br><span class="line">		<span class="keyword">this</span>.format=format;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String format;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,Object&gt; tags=<span class="keyword">new</span> LinkedHashMap&lt;String,Object&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> TagFormat <span class="title">with</span><span class="params">(String key,Object value)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check key and value</span></span><br><span class="line">		tags.put(<span class="string">"\\&#123;"</span>+key+<span class="string">"\\&#125;"</span>,value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">format</span><span class="params">()</span></span>&#123;</span><br><span class="line">		String formatted=format;</span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;String,Object&gt; tag:tags.entrySet())&#123;</span><br><span class="line">			formatted.replaceAll(tag.getKey(),tag.getValue().toString());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> formatted;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="u603B_u7ED3_uFF1A"><a href="#u603B_u7ED3_uFF1A" class="headerlink" title="总结："></a>总结：</h5><p>第二种方式比第一种方式可读性要更好一点，但是会引入更多的字符串(“firstname”,”secondname”)，抽取字符串也是一件麻烦事(不建议直接在代码中写死，抽取到string.xml中)。。。</p>
 <p>如果你是天秤座，抛硬币吧！</p>
 </span>
