@@ -200,6 +200,97 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/07/android-placeholder/" itemprop="url">
+                  android_placeholder
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-07T16:42:47+08:00" content="2016-01-07">
+              2016-01-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h6 id="u7B80_u7565_u7FFB_u8BD1_Android_String_Placeholders"><a href="#u7B80_u7565_u7FFB_u8BD1_Android_String_Placeholders" class="headerlink" title="简略翻译 Android String Placeholders"></a>简略翻译 <a href="/www.piwai.info/android-string-placeholders/">Android String Placeholders</a></h6><p>android开发中创建格式化字符串的两种方式</p>
+<h6 id="String-format_28_29"><a href="#String-format_28_29" class="headerlink" title="String.format()"></a>String.format()</h6><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">&lt;?xml vrsion=<span class="string">"1.0"</span> <span class="keyword">encoding</span>=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">	&lt;string name=<span class="string">"name"</span>&gt;Name: <span class="decorator">%1</span><span class="variable">$s</span> <span class="decorator">%2</span><span class="variable">$s</span>&lt;/string&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>调用方式：</p>
+<p>1.<code>String name=String.format(resources.getString(R.string.name),name1,name2);</code><br>2.<code>String name=resources(或者context).getString(R.string.name,name1,name2);</code><br>3.<code>textView.setText(R.string.name,name1,name2);</code></p>
+<p>第二，三两种方式底层都是通过调用String.format()实现的。</p>
+<h6 id="7Bplaceholders_7D_u65B9_u5F0F"><a href="#7Bplaceholders_7D_u65B9_u5F0F" class="headerlink" title="{placeholders}方式"></a><code>{placeholders}</code>方式</h6><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="pi">&lt;?xml vrsion="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">resources</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">string</span> <span class="attribute">name</span>=<span class="value">"name"</span>&gt;</span>Name: &#123;firstname&#125; &#123;secondname&#125;<span class="tag">&lt;/<span class="title">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>调用方式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TagFormat nameFormat=TagFormat.from(getString(R.string.name));</span><br><span class="line">nameFormat.with(<span class="string">"firstname"</span>,firstname);</span><br><span class="line">nameFormat.with(<span class="string">"secondname"</span>,secondname);</span><br><span class="line">String name=nameFormat.format();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TagFormat</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TagFormat <span class="title">from</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> TagFormat(format)</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">TagFormat</span><span class="params">(String format)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check format empty</span></span><br><span class="line">		<span class="keyword">this</span>.format=format;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String format;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,Object&gt; tags=<span class="keyword">new</span> LinkedHashMap&lt;String,Object&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> TagFormat <span class="title">with</span><span class="params">(String key,Object value)</span></span>&#123;</span><br><span class="line">		<span class="comment">//todo check key and value</span></span><br><span class="line">		tags.put(<span class="string">"\\&#123;"</span>+key+<span class="string">"\\&#125;"</span>,value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">format</span><span class="params">()</span></span>&#123;</span><br><span class="line">		String formatted=format;</span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;String,Object&gt; tag:tags.entrySet())&#123;</span><br><span class="line">			formatted=formatted.replaceAll(tag.getKey(),tag.getValue().toString());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> formatted;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="u603B_u7ED3_uFF1A"><a href="#u603B_u7ED3_uFF1A" class="headerlink" title="总结："></a>总结：</h5><p>第二种方式比第一种方式可读性要更好一点，但是会引入更多的字符串(“firstname”,”secondname”)，抽取字符串也是一件麻烦事(不建议直接在代码中写死，抽取到string.xml中)。。。</p>
+<p>如果你是天秤座，抛硬币吧！</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/06/android_refuse_service_attack/" itemprop="url">
                   Android拒绝服务是个什么鬼？
                 </a>
@@ -434,7 +525,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
