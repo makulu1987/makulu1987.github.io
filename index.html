@@ -240,6 +240,7 @@
             
               <h6 id="u7B80_u7565_u7FFB_u8BD1_Android_String_Placeholders"><a href="#u7B80_u7565_u7FFB_u8BD1_Android_String_Placeholders" class="headerlink" title="简略翻译 Android String Placeholders"></a>简略翻译 <a href="/www.piwai.info/android-string-placeholders/">Android String Placeholders</a></h6><p>android开发中创建格式化字符串的两种方式</p>
 <h6 id="String-format_28_29"><a href="#String-format_28_29" class="headerlink" title="String.format()"></a>String.format()</h6><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">&lt;?xml vrsion=<span class="string">"1.0"</span> <span class="keyword">encoding</span>=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">	&lt;string name=<span class="string">"name"</span>&gt;Name: <span class="decorator">%1</span><span class="variable">$s</span> <span class="decorator">%2</span><span class="variable">$s</span>&lt;/string&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>这里的%1,%2代表位置，与赋值顺序相关，不能搞错。$s可以换成$d等等；</p>
 <p>调用方式：</p>
 <p>1.<code>String name=String.format(resources.getString(R.string.name),name1,name2);</code><br>2.<code>String name=resources(或者context).getString(R.string.name,name1,name2);</code><br>3.<code>textView.setText(R.string.name,name1,name2);</code></p>
 <p>第二，三两种方式底层都是通过调用String.format()实现的。</p>
